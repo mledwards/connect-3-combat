@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MovesProvider } from "../lib/moves-context";
 import { Board } from "../components/index";
 import { useQuery, queryCache } from "react-query";
@@ -8,9 +8,6 @@ const Game = () => {
   // Set out the board
   // Clone fillBoard constant to avoid any mutation
   const [board, setBoard] = useState([...fillBoard()]);
-
-  // Set if the game has been won
-  const [winner, setWinner] = useState(false);
 
   // Set which player's turn it will be next
   const [player, setPlayer] = useState(1);
@@ -29,8 +26,12 @@ const Game = () => {
     // Clone fillBoard constant to avoid any mutation
     setBoard(board);
     setPlayer(player);
-    setWinner(winner);
   };
+
+  // For performance, only try and calculate the winner if the board has changed
+  const winner = useMemo(( ) => {
+    return calculateWinner(board)
+  }, [board]);
 
   // Run once to set up game
   useEffect(() => {

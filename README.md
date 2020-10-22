@@ -5,10 +5,11 @@ Showcasing use of:
 - Next.js
 - React
 - useEffect
+- useMemo
 - localStorage
 
 To add:
-- useMemo
+
 - createContext
 - Provider
 - react-query
