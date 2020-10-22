@@ -8,7 +8,6 @@ import { Square } from "../components/index";
 
 // This is where the board is created
 const Board = ({ board = [], addCounter }) => {
-
   // const [moves, setMoves] = React.useContext(MovesContext);
 
   // Loop the board's row
@@ -17,7 +16,10 @@ const Board = ({ board = [], addCounter }) => {
       {board.map((row) =>
         // Loop over each cell in the row
         row.map((column, columnIndex) => (
-          <Square player={column} onClick={() => addCounter({ column: columnIndex })} />
+          <Square
+            player={column}
+            onClick={() => addCounter({ column: columnIndex })}
+          />
         ))
       )}
     </div>
