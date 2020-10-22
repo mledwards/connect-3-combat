@@ -26,12 +26,31 @@ const Game = () => {
         winner,
       })
     );
-    
-    // Clone fillBoard constant to avoid any mutation
-    setBoard(board);
+  };
+
+  const newGame = () => {
+    setBoard([
+      Array(7).fill(null),
+      Array(7).fill(null),
+      Array(7).fill(null),
+      Array(7).fill(null),
+      Array(7).fill(null),
+      Array(7).fill(null),
+      Array(7).fill(null),
+    ])
     setPlayer(player);
     setWinner(winner);
-  };
+
+    localStorage.setItem(
+      "moves",
+      JSON.stringify({
+        player,
+        board,
+        winner,
+      })
+    );
+
+  }
 
   // Run once to set up game
   useEffect(() => {
@@ -76,17 +95,21 @@ const Game = () => {
   //  Render the Game
   return (
     <div>
-      <MovesProvider>
-        <p className="turn">
-          Who's turn? Player {winner ? `${winner} wins` : player}
-          <button className="new-game" onClick={() => setGame({})}>
-            New game
+      {/* <MovesProvider> */}
+      <p className="turn">
+        Who's turn? Player {winner ? `${winner} wins` : player}
+        <button className="new-game" onClick={() => newGame()}>
+          New game
           </button>
-          <span className={"player player-" + player}></span>
-        </p>
-        <Board player={player} board={board} addCounter={addCounter} />
-      </MovesProvider>
-    </div>
+        <span className={"player player-" + player}></span>
+      </p>
+      <Board
+        player={player}
+        board={board}
+        addCounter={addCounter}
+      />
+      {/* </MovesProvider> */}
+    </div >
   );
 };
 
