@@ -15,9 +15,8 @@ const Game = () => {
   // Set which player's turn it will be next
   const [player, setPlayer] = useState(1);
 
-  // Function to reset all states to play a new game
+  // Function to set all game states
   const setGame = ({ board = [...fillBoard], player = 1, winner = false }) => {
-
     localStorage.setItem(
       "moves",
       JSON.stringify({
@@ -26,7 +25,7 @@ const Game = () => {
         winner,
       })
     );
-    
+
     // Clone fillBoard constant to avoid any mutation
     setBoard(board);
     setPlayer(player);
