@@ -7,7 +7,7 @@ import { calculateWinner, fillBoard } from "../lib/utils";
 const Game = () => {
   // Set out the board
   // Clone fillBoard constant to avoid any mutation
-  const [board, setBoard] = useState([...fillBoard]);
+  const [board, setBoard] = useState([...fillBoard()]);
 
   // Set if the game has been won
   const [winner, setWinner] = useState(false);
@@ -16,7 +16,7 @@ const Game = () => {
   const [player, setPlayer] = useState(1);
 
   // Function to set all game states
-  const setGame = ({ board = [...fillBoard], player = 1, winner = false }) => {
+  const setGame = ({ board = [...fillBoard()], player = 1, winner = false }) => {
     localStorage.setItem(
       "moves",
       JSON.stringify({
@@ -74,8 +74,8 @@ const Game = () => {
 
   //  Render the Game
   return (
-    <div>
-      <MovesProvider>
+    <div className="container">
+      {/* <MovesProvider> */}
         <p className="turn">
           Who's turn? Player {winner ? `${winner} wins` : player}
           <button className="new-game" onClick={() => setGame({})}>
@@ -84,7 +84,7 @@ const Game = () => {
           <span className={"player player-" + player}></span>
         </p>
         <Board player={player} board={board} addCounter={addCounter} />
-      </MovesProvider>
+      {/* </MovesProvider> */}
     </div>
   );
 };
