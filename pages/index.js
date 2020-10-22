@@ -16,7 +16,11 @@ const Game = () => {
   const [player, setPlayer] = useState(1);
 
   // Function to reset all states to play a new game
-  const setGame = ({ board = [...fillBoard], player = 1, winner = false }) => {
+  const setGame = ({ newBoard = [...fillBoard], player = 1, winner = false }) => {
+    // Clone fillBoard constant to avoid any mutation
+    setBoard(newBoard);
+    setPlayer(player);
+    setWinner(winner);
 
     localStorage.setItem(
       "moves",
@@ -29,15 +33,7 @@ const Game = () => {
   };
 
   const newGame = () => {
-    setBoard([
-      Array(7).fill(null),
-      Array(7).fill(null),
-      Array(7).fill(null),
-      Array(7).fill(null),
-      Array(7).fill(null),
-      Array(7).fill(null),
-      Array(7).fill(null),
-    ])
+    setBoard([...fillBoard])
     setPlayer(player);
     setWinner(winner);
 
@@ -67,7 +63,6 @@ const Game = () => {
     if (winner) {
       return;
     }
-
     // Clone board state before using
     let newBoard = [...board];
 
@@ -82,7 +77,7 @@ const Game = () => {
         // As well as states
         setGame({
           player: player === 1 ? 2 : 1,
-          board: newBoard,
+          newBoard,
           winner: calculateWinner(newBoard),
         });
 
