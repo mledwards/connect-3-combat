@@ -30,7 +30,7 @@ const Game = () => {
       Array(7).fill(null),
       Array(7).fill(null),
       Array(7).fill(null),
-      Array(7).fill(null),
+      [null, "<>", null, null, null, null, null],
       Array(7).fill(null),
       Array(7).fill(null),
       Array(7).fill(null),
@@ -51,12 +51,12 @@ const Game = () => {
 
   // Run once to set up game
   useEffect(() => {
-    if (!game.names.includes(name)) {
-      setGame({
-        ...game,
-        names: [...game.names, name],
-      });
-    }
+    // if (!game.names.includes(name)) {
+    //   setGame({
+    //     ...game,
+    //     names: [...game.names, name],
+    //   });
+    // }
     // Set up pusher channels
     const channel = pusher.subscribe("roomId");
 
@@ -79,9 +79,9 @@ const Game = () => {
 
   // Function to add a counter to the lowest most untaken row
   const addCounter = async ({ column }) => {
-    if (player !== parseInt(playerNumber, 10)) {
-      return;
-    }
+    // if (player !== parseInt(playerNumber, 10)) {
+    //   return;
+    // }
     // Don't add counter if winner has been revealed
     if (winner) {
       return;
@@ -93,17 +93,34 @@ const Game = () => {
     // Start from the bottom up for efficiency, as more pieces will at the bottom #gravity
     // Only check the amount of
     for (var row = newBoard.length - 1; row >= 0; row--) {
+
+      let newRow = row;
+
+      if (newBoard[row][column] === "<>") {
+
+        newRow = row + 1;
+
+        // Remove last row
+        newBoard.pop();
+
+        // Remove the powerup
+        newBoard[row][column] = null;
+        
+        // Add empty first row
+        newBoard.unshift(Array(7).fill(null));
+      }
+
       // Check if any row has a piece
       // If not add the current player's turn piece
-      if (!newBoard[row][column]) {
-        newBoard[row][column] = player;
+      if (typeof newBoard[newRow][column] !== "number") {
+        newBoard[newRow][column] = player;
         // Update local storage
         // As well as states
 
         const newGame = {
           player: player === playerCount ? 1 : player + 1,
           board: newBoard,
-          lastPlay: [row, column],
+          lastPlay: [newRow, column],
           winner: calculateWinner(newBoard),
         };
         setGame(newGame);
@@ -148,9 +165,9 @@ const Game = () => {
         >
           New game
         </button>
-        <div className="text-xl mb-3">
+        <span className="text-xl mb-3 block">
           Who's turn? Player {winner ? `${winner} wins` : player}
-        </div>
+        </span>
         <span className={"player player-" + player}></span>
       </p>
       <div className="grid grid-cols-2">

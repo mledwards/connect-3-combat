@@ -18,6 +18,7 @@ const Board = ({ game, addCounter }) => {
         // Loop over each cell in the row
         row.map((column, columnIndex) => (
           <Square
+            key={`square-${rowIndex}-${columnIndex}`}
             lastPlay={lastPlay}
             player={column}
             row={rowIndex}
