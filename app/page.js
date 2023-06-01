@@ -30,7 +30,7 @@ const Game = () => {
       Array(7).fill(null),
       Array(7).fill(null),
       Array(7).fill(null),
-      [null, "<>", null, null, null, null, null],
+      [null, "<->", null, null, null, null, null],
       Array(7).fill(null),
       Array(7).fill(null),
       Array(7).fill(null),
@@ -97,7 +97,7 @@ const Game = () => {
 
       let newRow = row;
 
-      if (newBoard[row][column] === "<>") {
+      if (newBoard[row][column] === "<->") {
 
         newRow = row + 1;
 
