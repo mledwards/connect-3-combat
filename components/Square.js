@@ -1,11 +1,19 @@
 // This component outputs the individual square on the board
-function Square({ player, onClick }) {
+function Square({ row, column, lastPlay, player, onClick }) {
+  console.log("lastPlay", lastPlay);
+
+  console.log("row", row);
+  console.log("column", column);
+
+  const lastPlayed = lastPlay?.[1] === column && lastPlay?.[0] === row;
   return (
     <div className="square">
       <div
-        className={"player player-" + player}
+        className={`${lastPlayed ? "border-4" : ""} player player-${player}`}
         onClick={onClick}
-      >{player}</div>
+      >
+        {player}
+      </div>
     </div>
   );
 }

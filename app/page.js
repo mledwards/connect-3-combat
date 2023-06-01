@@ -38,6 +38,7 @@ const Game = () => {
     player: 1,
     names: [],
     winner: false,
+    lastPlay: [, ,],
   });
   // Set out the board
 
@@ -102,6 +103,7 @@ const Game = () => {
         const newGame = {
           player: player === playerCount ? 1 : player + 1,
           board: newBoard,
+          lastPlay: [row, column],
           winner: calculateWinner(newBoard),
         };
         setGame(newGame);
@@ -153,7 +155,7 @@ const Game = () => {
       </p>
       <div className="grid grid-cols-2">
         <div>
-          <Board player={player} board={board} addCounter={addCounter} />
+          <Board game={game} addCounter={addCounter} />
         </div>
         {/* <div>
           <h2>Players</h2>

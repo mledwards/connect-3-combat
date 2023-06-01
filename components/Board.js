@@ -7,18 +7,21 @@ import { GameContext } from "../lib/game-context";
 import { Square } from "../components/index";
 
 // This is where the board is created
-const Board = ({ board = [], addCounter }) => {
+const Board = ({ game, addCounter }) => {
+  const { board = [], player, lastPlay = [] } = game;
   // const [moves, setMoves] = React.useContext(MovesContext);
 
   // Loop the board's row
   return (
-    
     <div className="board">
-      {board.map((row) =>
+      {board.map((row, rowIndex) =>
         // Loop over each cell in the row
         row.map((column, columnIndex) => (
           <Square
+            lastPlay={lastPlay}
             player={column}
+            row={rowIndex}
+            column={columnIndex}
             onClick={() => addCounter({ column: columnIndex })}
           />
         ))
