@@ -1,7 +1,7 @@
 import React from "react";
 
 // Use a context for global moves, so it can be used at any component level
-import { MovesContext } from "../lib/moves-context";
+import { GameContext } from "../lib/game-context";
 
 // Components
 import { Square } from "../components/index";
