@@ -5,7 +5,7 @@ function Square({ player, onClick }) {
       <div
         className={"player player-" + player}
         onClick={onClick}
-      ></div>
+      >{player}</div>
     </div>
   );
 }
