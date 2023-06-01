@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useMemo, useState } from "react";
 import { MovesProvider } from "../lib/moves-context";
 import { Board } from "../components/index";
