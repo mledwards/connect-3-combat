@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useMemo, useState } from "react";
 import { MovesProvider } from "../lib/moves-context";
@@ -6,7 +6,13 @@ import { Board } from "../components/index";
 import { useQuery, queryCache } from "react-query";
 import { calculateWinner, fillBoard } from "../lib/utils";
 
+const CONSTANTS = {
+  playerCount: 3,
+  winCount: 3
+};
+
 const Game = () => {
+  const { playerCount } = CONSTANTS;
   // Set out the board
   // Clone fillBoard constant to avoid any mutation
   const [board, setBoard] = useState([...fillBoard()]);
@@ -15,7 +21,11 @@ const Game = () => {
   const [player, setPlayer] = useState(1);
 
   // Function to set all game states
-  const setGame = ({ board = [...fillBoard()], player = 1, winner = false }) => {
+  const setGame = ({
+    board = [...fillBoard()],
+    player = 1,
+    winner = false,
+  }) => {
     localStorage.setItem(
       "moves",
       JSON.stringify({
@@ -31,8 +41,8 @@ const Game = () => {
   };
 
   // For performance, only try and calculate the winner if the board has changed
-  const winner = useMemo(( ) => {
-    return calculateWinner(board)
+  const winner = useMemo(() => {
+    return calculateWinner(board);
   }, [board]);
 
   // Run once to set up game
@@ -63,8 +73,9 @@ const Game = () => {
         newBoard[row][column] = player;
         // Update local storage
         // As well as states
+        console.log('player', player);
         setGame({
-          player: player === 1 ? 2 : 1,
+          player: player === playerCount ? 1 : player + 1,
           board: newBoard,
           winner: calculateWinner(newBoard),
         });
@@ -79,14 +90,14 @@ const Game = () => {
   return (
     <div className="container">
       {/* <MovesProvider> */}
-        <p className="turn">
-          Who's turn? Player {winner ? `${winner} wins` : player}
-          <button className="new-game" onClick={() => setGame({})}>
-            New game
-          </button>
-          <span className={"player player-" + player}></span>
-        </p>
-        <Board player={player} board={board} addCounter={addCounter} />
+      <p className="turn">
+        Who's turn? Player {winner ? `${winner} wins` : player}
+        <button className="new-game" onClick={() => setGame({})}>
+          New game
+        </button>
+        <span className={"player player-" + player}></span>
+      </p>
+      <Board player={player} board={board} addCounter={addCounter} />
       {/* </MovesProvider> */}
     </div>
   );
