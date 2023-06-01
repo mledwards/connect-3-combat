@@ -44,27 +44,7 @@ const Game = () => {
 
   const { player, board } = game;
 
-  console.log("board", board);
-
-  // Function to set all game states
-  // const updateGame = ({
-  //   board = [...fillBoard()],
-  //   player = 1,
-  //   winner = false,
-  // }) => {
-  //   localStorage.setItem(
-  //     "moves",
-  //     JSON.stringify({
-  //       player,
-  //       board,
-  //       winner,
-  //     })
-  //   );
-
-  //   // Clone fillBoard constant to avoid any mutation
-  //   setBoard(board);
-  //   setPlayer(player);
-  // };
+  console.log('player', player);
 
   // For performance, only try and calculate the winner if the board has changed
   const winner = useMemo(() => {
@@ -99,7 +79,7 @@ const Game = () => {
   // Function to add a counter to the lowest most untaken row
   const addCounter = async ({ column }) => {
     // Don't add counter if winner has been revealed
-    if (winner) {
+    if (winner || player !== parseInt(playerNumber, 10)) {
       return;
     }
 
@@ -115,7 +95,6 @@ const Game = () => {
         newBoard[row][column] = player;
         // Update local storage
         // As well as states
-        console.log("player", player);
 
         const newGame = {
           player: player === playerCount ? 1 : player + 1,
