@@ -79,9 +79,10 @@ const Game = () => {
 
   // Function to add a counter to the lowest most untaken row
   const addCounter = async ({ column }) => {
-    // if (player !== parseInt(playerNumber, 10)) {
-    //   return;
-    // }
+    // Don't allow player to play unless it's the person's turn
+    if (player !== parseInt(playerNumber, 10)) {
+      return;
+    }
     // Don't add counter if winner has been revealed
     if (winner) {
       return;
