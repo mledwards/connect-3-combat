@@ -12,6 +12,7 @@ const Board = ({ board = [], addCounter }) => {
 
   // Loop the board's row
   return (
+    
     <div className="board">
       {board.map((row) =>
         // Loop over each cell in the row

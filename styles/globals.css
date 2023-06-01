@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+h2 {
+  @apply text-2xl font-bold;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -35,15 +39,19 @@ body {
 }
 
 .player-1 {
-  background-color: #E4172B;
+  background-color: #ED254E;
 }
 
 .player-2 {
-  background-color: #FFE630;
+  background-color: #F9DC5C;
 }
 
 .player-3 {
-  background-color: #00FF00;
+  background-color: #52B788;
+}
+
+.player-4 {
+  background-color: #9448BC;
 }
 
 .new-game {

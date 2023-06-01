@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { GameProvider, GameContext } from "../lib/game-context";
+import React, { useEffect, useMemo, useState } from "react";
 import { Board } from "../components/index";
-import { useQuery, queryCache } from "react-query";
-import { calculateWinner, fillBoard } from "../lib/utils";
+import { calculateWinner } from "../lib/utils";
 
 import Pusher from "pusher-js";
 
@@ -13,10 +11,10 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
 });
 
 import { toast } from "react-toastify";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const CONSTANTS = {
-  playerCount: 3,
+  playerCount: 4,
   winCount: 3,
 };
 
@@ -38,13 +36,12 @@ const Game = () => {
       Array(7).fill(null),
     ],
     player: 1,
+    names: [],
     winner: false,
   });
   // Set out the board
 
   const { player, board } = game;
-
-  console.log('player', player);
 
   // For performance, only try and calculate the winner if the board has changed
   const winner = useMemo(() => {
@@ -53,10 +50,13 @@ const Game = () => {
 
   // Run once to set up game
   useEffect(() => {
-    const moves = localStorage.getItem("moves")
-      ? JSON.parse(localStorage.getItem("moves"))
-      : {};
-
+    if (!game.names.includes(name)) {
+      setGame({
+        ...game,
+        names: [...game.names, name],
+      });
+    }
+    // Set up pusher channels
     const channel = pusher.subscribe("roomId");
 
     // Update everyone's game when a move has been made
@@ -65,7 +65,7 @@ const Game = () => {
       // console.log("data.player", data.player);
       // console.log("playerNumber", playerNumber);
       // if (data.player !== parseInt(playerNumber, 10)) {
-        setGame(data);
+      setGame(data);
       // }
     });
 
@@ -78,8 +78,11 @@ const Game = () => {
 
   // Function to add a counter to the lowest most untaken row
   const addCounter = async ({ column }) => {
+    if (player !== parseInt(playerNumber, 10)) {
+      return;
+    }
     // Don't add counter if winner has been revealed
-    if (winner || player !== parseInt(playerNumber, 10)) {
+    if (winner) {
       return;
     }
 
@@ -130,19 +133,32 @@ const Game = () => {
       }
     }
   };
+  console.log("game", game);
 
   //  Render the Game
   return (
     <div className="container">
       {/* <GameProvider> */}
       <p className="turn">
-        Who's turn? Player {winner ? `${winner} wins` : player}
-        <button className="new-game" onClick={() => setGame({})}>
+        <button
+          className="p-3 mb-3 bg-black text-white"
+          onClick={() => setGame({})}
+        >
           New game
         </button>
+        <div className="text-xl mb-3">
+          Who's turn? Player {winner ? `${winner} wins` : player}
+        </div>
         <span className={"player player-" + player}></span>
       </p>
-      <Board player={player} board={board} addCounter={addCounter} />
+      <div className="grid grid-cols-2">
+        <div>
+          <Board player={player} board={board} addCounter={addCounter} />
+        </div>
+        {/* <div>
+          <h2>Players</h2>
+        </div> */}
+      </div>
       {/* </GameProvider> */}
     </div>
   );
