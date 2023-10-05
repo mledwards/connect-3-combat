@@ -1,5 +1,5 @@
-# Connext 4
-A game of Connect 4 built in next.js
+# Connect 3 Combat
+A game of Connect 3 multiplayer built in next.js
 
 Showcasing use of:
 - Next.js
